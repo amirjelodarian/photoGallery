@@ -1,0 +1,22 @@
+<div class="card card-pin">
+    <img class="card-img" src="{{ photo.path }}" alt="Card image">
+    <div class="overlay">
+        <h2 class="card-title title">{{ photo.title }}</h2>
+        <p><span class="photo-by">Photo By: </span><span class="photo-by-user">{{ photo.user.name }}</span></p>
+        <p class="photo-description">{{ photo.description }}</p>
+        <div class="more">
+            <a href="{{ photo.path }}">
+            <i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;</a>
+        </div>
+        {% if photo.user.id == userOwner %}
+            <form action="{% url 'photo.delete' delete=photo.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-delete">Delete</button>
+            </form>
+            <form action="{% url 'photo.editForm' edit=photo.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-edit">Edit</button>
+            </form>
+        {% endif %}
+    </div>
+</div>

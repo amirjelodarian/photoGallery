@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% block main %}
+    <section class="mt-4 mb-5">
+    <div class="container mb-4">
+    	<h1 class="font-weight-bold title">Explore</h1>
+    	<div class="row">
+    		<nav class="navbar navbar-expand-lg navbar-light bg-white pl-2 pr-2">
+    		<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExplore" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="navbar-toggler-icon"></span>
+    		</button>
+    		<div class="collapse navbar-collapse" id="navbarsExplore">
+    			<ul class="navbar-nav">
+    				{% for category in categories %}
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'photo.category' category=category.name %}">{{ category.name }}</a>
+						</li>
+    				{% endfor %}
+    			</ul>
+    		</div>
+    		</nav>
+    	</div>
+    </div>
+    <div class="container-fluid">
+    	<div class="row">
+    		<div class="card-columns">
+    			{% for photo in photos %}
+					{% include 'photoLayout.html' %}
+				{% endfor %}
+    		</div>
+    	</div>
+    </div>
+    </section>
+        
+{% endblock %}

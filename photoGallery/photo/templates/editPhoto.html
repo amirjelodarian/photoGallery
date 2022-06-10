@@ -1,0 +1,149 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    {% load static %}
+    <link href="{% static 'css/select2.min.css' %}" rel="stylesheet" />
+    <script src="{% static 'js/select2.min.js' %}" defer></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <style>
+        body {
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+        .form-control{
+            height: 41px;
+            background: #f2f2f2;
+            box-shadow: none !important;
+            border: none;
+        }
+        .form-control:focus{
+            background: #e2e2e2;
+        }
+        .form-control, .btn{        
+            border-radius: 3px;
+        }
+        .signup-form{
+            width: 390px;
+            margin: 30px auto;
+        }
+        .signup-form form{
+            color: #999;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .signup-form h2 {
+            color: #333;
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .signup-form hr {
+            margin: 0 -30px 20px;
+        }    
+        .signup-form .form-group{
+            margin-bottom: 20px;
+        }
+        .signup-form input[type="checkbox"]{
+            margin-top: 3px;
+        }
+        .signup-form .row div:first-child{
+            padding-right: 10px;
+        }
+        .signup-form .row div:last-child{
+            padding-left: 10px;
+        }
+        .signup-form .btn{        
+            font-size: 16px;
+            font-weight: bold;
+            background: #3598dc;
+            border: none;
+            min-width: 140px;
+        }
+        .signup-form .btn:hover, .signup-form .btn:focus{
+            background: #2389cd !important;
+            outline: none;
+        }
+        .signup-form a{
+            color: #fff;
+            text-decoration: underline;
+        }
+        .signup-form a:hover{
+            text-decoration: none;
+        }
+        .signup-form form a{
+            color: #3598dc;
+            text-decoration: none;
+        }	
+        .signup-form form a:hover{
+            text-decoration: underline;
+        }
+        .signup-form .hint-text {
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        .navbar{
+            position: absolute;
+        }
+        .navbar-brand{
+            padding: 0px;
+        }
+    </style>
+{% endblock head %}
+    
+
+{% block main %}
+<div class="signup-form">
+    <form action="{% url 'photo.edit' edit=photo.id %}" method="POST">
+        {% csrf_token %}
+		<h2>Edit Photo</h2>
+        <div class="error text-danger">
+            {% if error != null %}
+                {{ error|escape|linebreaks }}
+            {% endif %}
+        </div>
+		<hr />      
+        <img class="card-img" src="{{ photo.path }}" alt="Card image">
+        <div class="form-group">
+        	<input type="text" class="form-control" name="title" placeholder="Title" value="{{ photo.title }}" required="required">
+        </div>  	
+        <div class="form-group">
+        	<input type="text" class="form-control" name="description" placeholder="Description" value="{{ photo.description }}" />
+        </div>
+        <div class="form-group">
+            <div class="category-wrapper">
+                <select name="category" class="form-control category" multiple="multiple">
+                    {% for category in categories %}
+                        <option value={{ category.name }}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </div>
+        <div class="hint-text">See Your <a href="{% url 'photo.myGallery' %}">Gallery</a></div>
+    </form>
+</div>  
+{% endblock main %}
+
+{% block footer %}
+<script>
+    $(document).ready(function() {
+        $('.category').select2({
+            placeholder: 'Choose Category',
+            allowClear: true,
+            tags: true,
+        });
+     
+
+    });
+</script>
+
+{% endblock footer %}
+    
+    
